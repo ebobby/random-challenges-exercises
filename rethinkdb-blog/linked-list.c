@@ -40,31 +40,31 @@ Node* linked_list_new_node (int key, void *value) {
 Node* linked_list_insert (LinkedList *list, int key, void* value) {
     Node **where = &list->root;
 
-    while ((*where) != NULL)
+    while (*where != NULL)
         where = &(*where)->next;
 
-    (*where) = linked_list_new_node(key, value);
+    *where = linked_list_new_node(key, value);
 
-    return (*where);
+    return *where;
 }
 
 Node *linked_list_find (LinkedList *list, int key) {
     Node **where = &list->root;
 
-    while ((*where) != NULL && (*where)->key != key)
+    while (*where != NULL && (*where)->key != key)
         where = &(*where)->next;
 
-    return (*where);
+    return *where;
 }
 
 void linked_list_destroy (LinkedList *list) {
     Node **where = &list->root;
     Node *next = NULL;
 
-    while ((*where) != NULL) {
+    while (*where != NULL) {
         printf("Destroying node key: %d.\n", (*where)->key);
         next = (*where)->next;
-        free((*where));
+        free(*where);
         where = &next;
     }
 
@@ -92,7 +92,7 @@ LinkedList *linked_list_reverse (LinkedList *list) {
 void linked_list_print (LinkedList *list) {
     Node **where = &list->root;
 
-    while ((*where) != NULL) {
+    while (*where != NULL) {
         printf("%d, ", (*where)->key);
         where = &(*where)->next;
     }
@@ -103,7 +103,7 @@ int linked_list_count (LinkedList *list) {
     Node **where = &list->root;
     int count = 0;
 
-    while ((*where) != NULL) {
+    while (*where != NULL) {
         count++;
         where = &(*where)->next;
     }

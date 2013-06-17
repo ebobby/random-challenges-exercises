@@ -58,14 +58,16 @@ Node *linked_list_find (LinkedList *list, int key) {
 }
 
 void linked_list_destroy (LinkedList *list) {
-    Node **where = &list->root;
+    Node *where = list->root;
     Node *next = NULL;
 
-    while (*where != NULL) {
-        printf("Destroying node key: %d.\n", (*where)->key);
-        next = (*where)->next;
-        free(*where);
-        where = &next;
+    while (where != NULL) {
+        next = where->next;
+
+        printf("Destroying node key: %d.\n", where->key);
+        free(where);
+
+        where = next;
     }
 
     printf("Destroying list.\n");

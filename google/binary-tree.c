@@ -57,7 +57,7 @@ void binary_tree_insert (binary_tree *bst, int key) {
     binary_tree_node **next = &bst->root;
 
     while (*next != NULL) {
-        if (key < (*next)->key) {
+        if (key <= (*next)->key) {
             next = &(*next)->left;
         }
         else {

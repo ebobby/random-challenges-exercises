@@ -79,7 +79,7 @@ binary_tree_node* binary_tree_search (binary_tree *bst, int key) {
         if (key == (*next)->key) {
             break;
         }
-        if (key < (*next)->key) {
+        else if (key < (*next)->key) {
             next = &(*next)->left;
         }
         else {

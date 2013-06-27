@@ -11,18 +11,6 @@ void naivememcpy (void *dst, void *src, size_t n) {
     }
 }
 
-void fastmemcpy_read_byte (uint64_t *constructed, int *read, uint8_t **src) {
-    *constructed += (**src & 0xFF) << (*read << 3);
-    *read        += 1;
-    *src         += 1;
-}
-
-void fastmemcpy_read_dword (uint64_t *constructed, int *read, uint64_t **src) {
-    *constructed = **src;
-    *read        = 8;
-    *src        += 1;
-}
-
 void fastmemcpy (void *dst, void *src, size_t n) {
     uint8_t *byte_d =(uint8_t *)dst, *byte_s = (uint8_t *)src, byte;
     uint64_t constructed = 0, buffer = 0, *dword_d, *dword_s;
@@ -38,7 +26,9 @@ void fastmemcpy (void *dst, void *src, size_t n) {
     else {
         tmp = ((long) byte_s) & 0x7;
         for (i = 0; i < tmp; i++) {
-            fastmemcpy_read_byte(&constructed, &read, &byte_s);
+            constructed += (*byte_s & 0xFF) << (read << 3);
+            read        += 1;
+            byte_s      += 1;
             n--;
         }
         dword_s = (uint64_t *)byte_s; // now read pointer is aligned.
@@ -49,13 +39,17 @@ void fastmemcpy (void *dst, void *src, size_t n) {
                 if (n < 8) {
                     tmp = n;
                     for (i = 0; i < tmp; i++) {
-                        fastmemcpy_read_byte(&constructed, &read, &byte_s);
+                        constructed += (*byte_s & 0xFF) << (read << 3);
+                        read        += 1;
+                        byte_s      += 1;
                         n--;
                     }
                     dword_s = (uint64_t *)byte_s;
                 }
                 else {
-                    fastmemcpy_read_dword(&constructed, &read, &dword_s);
+                    constructed = *dword_s;
+                    read        = 8;
+                    dword_s    += 1;
                     n -= 8;
                 }
             }
@@ -73,7 +67,9 @@ void fastmemcpy (void *dst, void *src, size_t n) {
                 tmp = 8 - read;
                 for (j = 0; j < tmp; j++) {
                     if (buffered == 0) {
-                        fastmemcpy_read_dword(&buffer, &buffered, &dword_s);
+                        buffer   = *dword_s;
+                        buffered = 8;
+                        dword_s += 1;
                         n -= 8;
                     }
 

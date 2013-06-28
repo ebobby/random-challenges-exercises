@@ -6,7 +6,7 @@
 ;; Francisco Soto <ebobby@ebobby.org>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconstant +heap-max-size+ 1000)
+(defconstant +heap-max-size+ 100)
 
 (defstruct (heap (:constructor %make-heap (&key table size order comparer)))
   table size  (order nil :read-only t) (comparer nil :read-only t))
@@ -19,7 +19,7 @@
               :comparer (if (eq type :max) #'> #'<)))
 
 (defun heap-parent-index (i)
-  (when (> i 1) (ash i -1)))
+  (unless (<= i 1) (ash i -1)))
 
 (defun heap-left-index (i)
   (ash i 1))
@@ -61,10 +61,10 @@
     (when (and (heap-p heap) (< (heap-size heap) +heap-max-size+))
       (setf (aref (heap-table heap) (heap-last-index heap)) key)
       (incf (heap-size heap))
-      (heap-bubble heap (1- (heap-size heap)))
+      (heap-bubble heap (1- (heap-last-index heap)))
       heap)))
 
-(defun heap-topmost (heap)
+(defun heap-topmost-extract (heap)
   (when (and (heap-p heap) (plusp (heap-size heap)))
     (let ((top (aref (heap-table heap) 1)))
       (setf (aref (heap-table heap) 1) (aref (heap-table heap) (heap-size heap)))
@@ -72,3 +72,7 @@
       (decf (heap-size heap))
       (heap-heapify heap 1)
       top)))
+
+(defun heap-topmost-peek (heap)
+  (when (and (heap-p heap) (plusp (heap-size heap)))
+    (aref (heap-table heap) 1)))

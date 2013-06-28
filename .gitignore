@@ -1,3 +1,4 @@
 rethinkdb-blog/linked-list
 google/memcpy
 google/binary-tree
+**/*.fasl

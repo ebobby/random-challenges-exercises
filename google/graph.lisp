@@ -38,9 +38,9 @@
   "Adds an edge to the node."
   (let ((edges (gethash node graph)))
     (if edges
-        (let ((edge (assoc (first edge) edges)))
-          (if edge
-              (rplacd edge (cdr edge))
+        (let ((existing-edge (assoc (first edge) edges)))
+          (if existing-edge
+              (rplacd existing-edge (cdr edge))
               (setf (gethash node graph) (cons edge edges))))
         (graph-add-node graph node edge))))
 

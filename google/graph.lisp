@@ -58,7 +58,7 @@
 
 (defun graph-node-p (graph node)
   "Is there a node node in the graph?"
-  (gethash graph node))
+  (gethash node graph))
 
 (defun graph-node-count (graph)
   "How many nodes are there in this graph?"

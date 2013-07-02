@@ -31,7 +31,7 @@
   (make-hash-table :test #'equal :size 32))
 
 (defun graph-add-node (graph node &optional (edges '()))
-  "Add a node to the graph."
+  "Add a node to the graph with a given list of edges if given."
   (setf (gethash node graph) edges))
 
 (defun graph-add-edge (graph node edge)
@@ -42,7 +42,7 @@
           (if existing-edge
               (rplacd existing-edge (cdr edge))
               (setf (gethash node graph) (cons edge edges))))
-        (graph-add-node graph node edge))))
+        (graph-add-node graph node (list edge)))))
 
 (defun graph-get-nodes (graph)
   "Get a list of all the nodes in the graph."

@@ -56,6 +56,10 @@
   "Is there an edge between n1 and n1?"
   (find n2 (gethash n1 graph)))
 
+(defun graph-node-p (graph node)
+  "Is there a node node in the graph?"
+  (gethash graph node))
+
 (defun graph-node-count (graph)
   "How many nodes are there in this graph?"
   (hash-table-count graph))

@@ -18,19 +18,45 @@
             alist)
     graph))
 
-(defun get-nodes (graph)
+(defun graph->assoc (graph)
+  "Converts a graph to an association list."
+  (let ((alist '()))
+    (maphash (lambda (node edges)
+               (setf alist (acons node edges alist)))
+             graph)
+    (reverse alist)))
+
+(defun make-graph ()
+  "Construct a new graph."
+  (make-hash-table :test #'equal :size 32))
+
+(defun graph-add-node (graph node &optional (edges '()))
+  "Add a node to the graph."
+  (setf (gethash node graph) edges))
+
+(defun graph-add-edge (graph node edge)
+  "Adds an edge to the node."
+  (let ((edges (gethash node graph)))
+    (if edges
+        (let ((edge (assoc (first edge) edges)))
+          (if edge
+              (rplacd edge (cdr edge))
+              (setf (gethash node graph) (cons edge edges))))
+        (graph-add-node graph node edge))))
+
+(defun graph-get-nodes (graph)
   "Get a list of all the nodes in the graph."
   (loop for k being the hash-keys in graph collect k))
 
-(defun get-edges (graph node)
+(defun graph-get-edges (graph node)
   "Gets the list of edges for node."
   (gethash node graph))
 
-(defun edge-p (graph n1 n2)
+(defun graph-edge-p (graph n1 n2)
   "Is there an edge between n1 and n1?"
   (find n2 (gethash n1 graph)))
 
-(defun node-count (graph)
+(defun graph-node-count (graph)
   "How many nodes are there in this graph?"
   (hash-table-count graph))
 
@@ -46,11 +72,11 @@
                    (funcall process-node node)
                    (mapcar (lambda (adjacent-node)
                              (funcall process-edge node adjacent-node))
-                           (get-edges graph node))
-                   (setf nodes (funcall add-nodes (get-edges graph node) nodes))
+                           (graph-get-edges graph node))
+                   (setf nodes (funcall add-nodes (graph-get-edges graph node) nodes))
                    (setf (gethash node visited-nodes) T))
                  (traverse-graph nodes visited-nodes)))))
-    (traverse-graph (list starting-node) (make-hash-table :test #'equal :size (node-count graph)))))
+    (traverse-graph (list starting-node) (make-hash-table :test #'equal :size (graph-node-count graph)))))
 
 (defun breadth-first-search (graph starting-node &key (process-node #'identity) (process-edge (lambda (&rest a) a)))
   "Traverse the graph on a breadth-first basis and calls the given functions."

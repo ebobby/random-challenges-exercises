@@ -19,7 +19,7 @@
                                (G ((E . 5) (F . 2)))))
 
 (defun minimum-spanning-tree (graph starting-node)
-  "Returns the minimum spanning tree of the given weighted graph."
+  "Returns the minimum spanning tree of the given weighted graph using Prim's algorithm.."
   (loop
      with tree = (make-graph)
      with nodes = (graph-get-nodes graph)

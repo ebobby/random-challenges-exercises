@@ -6,8 +6,6 @@
 ;; Francisco Soto <ebobby@ebobby.org>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; mix/max heaps
-(load "heap")
 (load "graph")
 
 (defparameter *simple-graph* '((A ((B . 5) (C . 7) (D . 12)))

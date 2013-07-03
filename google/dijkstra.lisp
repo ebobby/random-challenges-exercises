@@ -17,7 +17,7 @@
                                (G ((E . 5) (F . 2)))))
 
 (defun dijkstra (graph starting-node)
-  "Returns the minimum spanning tree of the given weighted graph using Prim's algorithm.."
+  "Returns a graph representing the shortest path to all nodes from starting-node using Dijkstra's algorithm."
   (loop
      with tree = (make-graph)
      with nodes = (graph-get-nodes graph)

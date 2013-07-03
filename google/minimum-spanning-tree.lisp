@@ -21,7 +21,7 @@
   (loop
      with tree = (make-graph)
      with nodes = (graph-get-nodes graph)
-     with weigths = (make-hash-table :test #'equal)
+     with weights = (make-hash-table :test #'equal)
      with parents = (make-hash-table :test #'equal)
      with processed = (make-hash-table :test #'equal)
      with current-node = starting-node
@@ -35,17 +35,17 @@
           for edge in (graph-get-edges graph current-node)
           for edge-node = (car edge)
           for weight = (cdr edge)
-          for current-weight = (gethash edge-node weigths)
+          for current-weight = (gethash edge-node weights)
           when (and (or (null current-weight) (< weight current-weight)) (not (gethash edge-node processed)))
           do
-            (setf (gethash edge-node weigths) weight)
+            (setf (gethash edge-node weights) weight)
             (setf (gethash edge-node parents) current-node))
      ;; Pick up the next shorter path we have, add that node to the tree and process that node.
        (loop
           with w = nil
           with next-node = nil
           for i in nodes
-          for d = (gethash i weigths)
+          for d = (gethash i weights)
           when (and (not (null d)) (or (null w) (> w d)) (null (gethash i processed)))
           do
             (setf w d)

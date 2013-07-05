@@ -28,7 +28,7 @@
                             (setf previous (elt sequence m))
                             (push (elt sequence m) seq)
                             (incf how-many)
-                          finally (return (reverse seq))) ))
+                          finally (return (reverse seq)))))
               (when (>= (length run)
                         (length best))
                 (setf best run))))

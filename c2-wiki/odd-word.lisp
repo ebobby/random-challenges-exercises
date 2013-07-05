@@ -6,7 +6,6 @@
 ;; Francisco Soto <ebobby@ebobby.org>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (defun get-printer ()
   "Returns a function that takes characters and buffers them until a space is found then everything is printed.
    Odd words are printed reversed. (First word is 0 so not odd)"

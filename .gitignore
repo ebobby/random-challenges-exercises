@@ -4,4 +4,5 @@ google/binary-tree
 google/context-switches
 google/mutex
 google/semaphore
+google/producer-consumer
 **/*.fasl

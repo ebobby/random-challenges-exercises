@@ -14,6 +14,11 @@
 
 #include "semaphore.h"
 
+#define NUM_THREADS 10
+
+pthread_t threads[NUM_THREADS];
+semaphore_t semaphore;
+
 void *thread_function (void *thread_data) {
     int id = *((int *)thread_data);
 

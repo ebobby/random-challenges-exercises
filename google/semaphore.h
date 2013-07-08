@@ -14,11 +14,6 @@ typedef struct {
     pthread_cond_t conditional;
 } semaphore_t;
 
-#define NUM_THREADS 10
-
-pthread_t threads[NUM_THREADS];
-semaphore_t semaphore;
-
 void semaphore_init (semaphore_t *semaphore, int capacity) {
     semaphore->capacity = capacity;
     pthread_mutex_init(&semaphore->mutex, NULL);

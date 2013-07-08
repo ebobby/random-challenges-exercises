@@ -13,6 +13,9 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+// timeval to micro seconds
+#define USEC(X) (1000000 * X.tv_sec + X.tv_usec)
+
 uint32_t counter;
 pthread_t threads[2];
 
@@ -48,25 +51,17 @@ void *thread_function (void *thread_data) {
 }
 
 int main (void) {
-    // for debugging
-    int thread_id[2];
-
-    thread_id[0] = 1;
-    thread_id[1] = 2;
-
     struct timeval start_time, end_time;
 
     // Grab the lock so the threads start when we want them to.
     pthread_mutex_lock(&_start);
 
     // Create the threads.
-    pthread_create(&threads[0], NULL, thread_function, &thread_id[0]);
-    pthread_create(&threads[1], NULL, thread_function, &thread_id[1]);
+    pthread_create(&threads[0], NULL, thread_function, NULL);
+    pthread_create(&threads[1], NULL, thread_function, NULL);
 
     pthread_detach(threads[0]);
     pthread_detach(threads[1]);
-
-    printf("Context switches: %u\n", counter);
 
     gettimeofday(&start_time, NULL);
 
@@ -81,9 +76,9 @@ int main (void) {
 
     gettimeofday(&end_time, NULL);
 
-    float context_switch_speed = (((float) end_time.tv_usec - start_time.tv_usec) / (float) counter) * 1000000.0;
+    double context_switch_speed = ((double) USEC(end_time) - USEC(start_time)) / (double) counter;
 
-    printf("Context switch takes %f nanoseconds, %u elapsed in %u milliseconds.\n", context_switch_speed, counter, end_time.tv_usec - start_time.tv_usec);
+    printf("Context switch takes %f microseconds, %u elapsed in %lu microseconds.\n", context_switch_speed, counter, USEC(end_time) - USEC(start_time));
 
     return 0;
 }

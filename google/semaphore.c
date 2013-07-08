@@ -15,7 +15,6 @@
 
 typedef struct {
     int capacity;
-    int current;
     pthread_mutex_t mutex;
     pthread_cond_t conditional;
 } semaphore_t;
@@ -27,22 +26,26 @@ semaphore_t semaphore;
 
 void semaphore_init (semaphore_t *semaphore, int capacity) {
     semaphore->capacity = capacity;
-    semaphore->current = 0;
     pthread_mutex_init(&semaphore->mutex, NULL);
     pthread_cond_init(&semaphore->conditional, NULL);
 }
 
+void semaphore_destroy (semaphore_t *semaphore) {
+    pthread_mutex_destroy(&semaphore->mutex);
+    pthread_cond_destroy(&semaphore->conditional);
+}
+
 void semaphore_acquire (semaphore_t *semaphore) {
     pthread_mutex_lock(&semaphore->mutex);
-    while (semaphore->current == semaphore->capacity)
+    while (0 == semaphore->capacity)
         pthread_cond_wait(&semaphore->conditional, &semaphore->mutex);
-    semaphore->current++;
+    semaphore->capacity--;
     pthread_mutex_unlock(&semaphore->mutex);
 }
 
 void semaphore_release (semaphore_t *semaphore) {
     pthread_mutex_lock(&semaphore->mutex);
-    semaphore->current--;
+    semaphore->capacity++;
     pthread_cond_broadcast(&semaphore->conditional);
     pthread_mutex_unlock(&semaphore->mutex);
 }
@@ -75,6 +78,8 @@ int main (void) {
 
     // We go offline for a bit...
     sleep(10);
+
+    semaphore_destroy(&semaphore);
 
     // Return and let the other threads die.
     return 0;

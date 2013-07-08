@@ -3,4 +3,5 @@ google/memcpy
 google/binary-tree
 google/context-switches
 google/mutex
+google/semaphore
 **/*.fasl

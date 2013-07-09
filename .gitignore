@@ -5,4 +5,5 @@ google/context-switches
 google/mutex
 google/semaphore
 google/producer-consumer
+google/readers-writers
 **/*.fasl

@@ -79,8 +79,7 @@ void *consumer (void *td) {
 
 int main (void) {
     int i, producer_ids[PRODUCERS], consumer_ids[CONSUMERS];
-    pthread_t producers[PRODUCERS];
-    pthread_t consumers[CONSUMERS];
+    pthread_t producers[PRODUCERS], consumers[CONSUMERS];
 
     printf("%d producers, %d consumers, %d queue size.\n", PRODUCERS, CONSUMERS, QUEUE_SIZE);
 

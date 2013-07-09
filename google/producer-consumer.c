@@ -19,8 +19,7 @@
 #define QUEUE_SIZE 3
 
 uint32_t buffer = 0;
-semaphore_t fill_count;
-semaphore_t empty_count;
+semaphore_t fill_count, empty_count;
 pthread_mutex_t queue_mutex;
 
 int produce_item (int id) {

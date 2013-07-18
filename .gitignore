@@ -6,4 +6,5 @@ google/mutex
 google/semaphore
 google/producer-consumer
 google/readers-writers
+programming-pearls/bitvectorset
 **/*.fasl

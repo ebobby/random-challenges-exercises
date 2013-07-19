@@ -29,15 +29,16 @@ bit_vector_set *bit_vector_set_create (unsigned long elements) {
         return NULL;
 
     size = sizeof(uint32_t) * (BIT_VECTOR_SET_POSITION(elements) + 1);
+
     set->bitmap = (uint32_t *)malloc(size);
+    set->n = elements;
+
     memset(set->bitmap, 0, size);
 
     if (set->bitmap == NULL) {
         free(set);
         return NULL;
     }
-
-    set->n = elements;
 
     return set;
 }

@@ -14,7 +14,7 @@
 #define BIT_VECTOR_SET_SHIFT               5
 #define BIT_VECTOR_SET_POSITION(EL)        (EL >> 5)
 #define BIT_VECTOR_SET_SET_BIT_MASK(EL)    (1 << (EL & 0x1F))
-#define BIT_VECTOR_SET_UNSET_BIT_MASK(EL)  ((1 << (EL & 0x1F)) ^ 0xFFFFFFFF)
+#define BIT_VECTOR_SET_UNSET_BIT_MASK(EL) ~(1 << (EL & 0x1F))
 
 typedef struct {
     uint32_t *bitmap;  // bit vector

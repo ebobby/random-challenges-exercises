@@ -53,20 +53,17 @@ void bit_vector_set_destroy (bit_vector_set *set) {
 void bit_vector_set_add (bit_vector_set *set, unsigned long element) {
     if (element > set->n)
         return;
-    element--;
     set->bitmap[BIT_VECTOR_SET_POSITION(element)] |= BIT_VECTOR_SET_SET_BIT_MASK(element);
 }
 
 void bit_vector_set_remove (bit_vector_set *set, unsigned long element) {
     if (element > set->n)
         return;
-    element--;
     set->bitmap[BIT_VECTOR_SET_POSITION(element)] &= BIT_VECTOR_SET_UNSET_BIT_MASK(element);
 }
 
 int bit_vector_set_is_element_of (bit_vector_set *set, unsigned long element) {
     if (element > set->n)
         return 0;
-    element--;
     return set->bitmap[BIT_VECTOR_SET_POSITION(element)] & BIT_VECTOR_SET_SET_BIT_MASK(element);
 }

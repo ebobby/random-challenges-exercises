@@ -7,4 +7,6 @@ google/semaphore
 google/producer-consumer
 google/readers-writers
 programming-pearls/bitvectorset
+programming-pearls/system-sort
+programming-pearls/bitvectorset-sort
 **/*.fasl

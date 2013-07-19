@@ -12,7 +12,7 @@
 #include <time.h>
 #include "bitvectorset.h"
 
-#define SET_SIZE 25000000
+#define SET_SIZE 10000000000
 
 int main (void) {
     bit_vector_set *set = bit_vector_set_create(SET_SIZE);

@@ -1,3 +1,4 @@
+**/*.fasl
 rethinkdb-blog/linked-list
 google/memcpy
 google/binary-tree
@@ -14,4 +15,5 @@ codility/arithmetic-sequences
 codility/array-sums
 codility/cubes-in-range
 codility/palindrome-anagram
-**/*.fasl
+programming-pearls/flatten-strings
+programming-pearls/sign-string

@@ -17,3 +17,6 @@ codility/cubes-in-range
 codility/palindrome-anagram
 programming-pearls/flatten-strings
 programming-pearls/sign-string
+cpu-tests/cache-hits
+cpu-tests/branch-prediction
+cpu-tests/memory-dependency

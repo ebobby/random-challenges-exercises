@@ -20,3 +20,4 @@ programming-pearls/sign-string
 cpu-tests/cache-hits
 cpu-tests/branch-prediction
 cpu-tests/memory-dependency
+virtual-memory-tests/memory-protection

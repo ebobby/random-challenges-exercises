@@ -10,57 +10,68 @@
 
 #include "timers.h"
 
-#define ARRAY_SIZE 64*1024*1024
+#define CACHE_LINE_SIZE 32
+#define NUM_OPS         ((unsigned long) 5242880)
+#define PASSES          5
+#define ARRAY_SIZE      64L * NUM_OPS
 
-int memory_block[ARRAY_SIZE];
+char memory_block[ARRAY_SIZE];
+
+#define LOOP_ARRAY(start, ops, inc)               \
+    for (unsigned long i = start; i < ops * inc; i += inc)      \
+        memory_block[i] <<= 1;
+
+#define PRINT_RESULTS(count, index, elapsed)                            \
+    printf("%lu memory accesses, index %i, microseconds elapsed: %lu\n", \
+           count,                                                       \
+           index,                                                       \
+           elapsed)
 
 int main (void) {
-    int i;
 
     CREATE_CLOCK(cache_hits);
 
-    // Just in case
-    for (i = 0; i < ARRAY_SIZE; i++) memory_block[i] = 8;
+    for (int j = 0; j < PASSES; j++) {
+        printf("\n\nPass #%i:\n", j);
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 1) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 1, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        // Just in case
+        for (unsigned long i = 0; i < ARRAY_SIZE; i++) memory_block[i] = -1;
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 1);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 1, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 2) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 2, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 2);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 2, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 4) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 4, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 4);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 4, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 8) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 8, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 8);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 8, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 16) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 16, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 16);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 16, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 32) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 32, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 32);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 32, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 64) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 64, CLOCK_MICROSECS_ELAPSED(cache_hits));
+        START_CLOCK(cache_hits);
+        LOOP_ARRAY(0, NUM_OPS, 64);
+        STOP_CLOCK(cache_hits);
+        PRINT_RESULTS(NUM_OPS, 64, CLOCK_MICROSECS_ELAPSED(cache_hits));
 
-    START_CLOCK(cache_hits);
-    for (i = 0; i < ARRAY_SIZE; i += 64) memory_block[i] *= 3;
-    STOP_CLOCK(cache_hits);
-    printf("increment %i, microseconds elapsed: %lu\n", 64, CLOCK_MICROSECS_ELAPSED(cache_hits));
+    }
 
     return 0;
 }

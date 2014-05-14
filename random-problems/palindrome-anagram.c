@@ -1,7 +1,5 @@
 /************************************************************************************************************************
- * Find out if a random string can be arranged (anagram) into a  palindrome.
- *
- * Codility programming test
+ * Find out if a random string can be arranged into a  palindrome.
  *
  * Francisco Soto <ebobby@ebobby.org>
  ************************************************************************************************************************/

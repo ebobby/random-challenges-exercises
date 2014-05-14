@@ -1,8 +1,5 @@
 /************************************************************************************************************************
- * Count the number of arithmetic sequence slices in the given array. An aritmethic sequence is a sequence of elements
- * which the difference between them is the same, like { 0, 2, 4 }.
- *
- * Codility programming test.
+ * Count the number of slices where the difference between neighbors is the same ({0, 2, 4}) in the given array.
  *
  * Francisco Soto <ebobby@ebobby.org>
  ************************************************************************************************************************/

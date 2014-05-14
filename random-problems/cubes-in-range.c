@@ -1,7 +1,5 @@
 /************************************************************************************************************************
- * Given a range of numbers (inclusive) how many perfect cubes are there in it?
- *
- * Codility programming test.
+ * Given a range of numbers (inclusive) how many exact (integer) cubes are there in it?
  *
  * Francisco Soto <ebobby@ebobby.org>
  ************************************************************************************************************************/

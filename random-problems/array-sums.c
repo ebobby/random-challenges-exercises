@@ -2,8 +2,6 @@
  * Given an array of N elements find an index where the sum of all elements up to that index is the same as the sum of
  * all elements after that index.
  *
- * Codility programming demo.
- *
  * Francisco Soto <ebobby@ebobby.org>
  ************************************************************************************************************************/
 #include <stdio.h>
